@@ -13,13 +13,24 @@
   <h1>Getting Hammered In The Weather App</h1>
  </header>
  <main>
-  <div class="weather"></div>
-    <aside>
+  
+    <form class="search-bar">
       <input type="search" class="weather-search" placeholder="City">
-      <div id="history" class="hidden">1</div>
+      <input type="submit" id="submitbtn">
+      <!-- <div id="history" class="hidden">1</div>
       <div id="history" class="hidden">2</div>
-      <div id="history" class="hidden">3</div>
-    </aside>
+      <div id="history" class="hidden">3</div> -->
+    </form>
+    <div class="weather">
+      <h2 class="city">Austin</h2>
+      <div class="temp">900°F</div>
+      <img src="" alt="" class="icon"/>
+      <div class="description">Sunny</div>
+      <div class="humidity">Humidity: 90%</div>
+      <div class="wind">Wind Speed: 17mph</div>
+    </div>
+      
+    
     
   </div>  
   <!-- container to hold all elements -->
@@ -37,3 +48,4 @@
 <link src="./script.js">
 </body>
 </html>
+
