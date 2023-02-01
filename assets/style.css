@@ -18,9 +18,20 @@ header {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color:rgb(28, 100, 199);
+  color: rgb(248, 245, 245);
+  height: 55vh;
+  max-width: 65vw;
+  overflow: hidden;
+  
 }
 
 .icon {
-  max-width: 25px;
-  max-height: 25px;
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.smicon {
+  max-width: 50px;
+  max-height: 50px;
 }
