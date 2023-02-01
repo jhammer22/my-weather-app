@@ -12,3 +12,15 @@ header {
   margin: 0; 
 }
 
+.weather {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.icon {
+  max-width: 25px;
+  max-height: 25px;
+}
