@@ -23,7 +23,6 @@ header {
   background-color:rgb(28, 100, 199);
   color: rgb(248, 245, 245);
   height: 55vh;
-  max-width: 65vw;
   overflow: hidden;
   
 }
@@ -42,7 +41,9 @@ header {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  height: 175px;
+  align-items: center;
+  height: 35vh;
+  
   
 }
 
