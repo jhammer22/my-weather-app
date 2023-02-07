@@ -1,6 +1,8 @@
 * {
   font-family:Arial, Helvetica, sans-serif;
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 header {
@@ -34,4 +36,20 @@ header {
 .smicon {
   max-width: 50px;
   max-height: 50px;
+}
+
+.forecast {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  height: 175px;
+  
+}
+
+/* give cards border , background color and text color */
+.card {
+  
+  border: 2px solid black;
+  border-radius: 5px;
+
 }
