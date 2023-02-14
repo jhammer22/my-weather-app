@@ -15,7 +15,6 @@ header {
 }
 
 .weather {
- 
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
@@ -24,7 +23,6 @@ header {
   background-color:rgb(28, 100, 199);
   color: rgb(248, 245, 245);
   height: 35vh;
-  /* width: 50vw; */
   overflow: hidden;
 }
 
@@ -37,10 +35,7 @@ header {
   height: 50vh; 
 }
 
-/* give cards border , background color and text color */
 .card {
-  /* position: relative; */
-  /* align-items: center; */
   height: 300px;
   width: 200px;
   border: 2px solid black;
