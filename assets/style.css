@@ -24,18 +24,8 @@ header {
   color: rgb(248, 245, 245);
   height: 55vh;
   overflow: hidden;
-  
 }
 
-.icon {
-  max-width: 100px;
-  max-height: 100px;
-}
-
-.smicon {
-  max-width: 50px;
-  max-height: 50px;
-}
 
 .forecast {
   display: flex;
@@ -43,8 +33,6 @@ header {
   justify-content: space-evenly;
   align-items: center;
   height: 35vh;
-  
-  
 }
 
 /* give cards border , background color and text color */
