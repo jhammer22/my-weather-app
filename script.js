@@ -2,7 +2,7 @@
   // submitbtn: submit button for city search
 
 
-// class's used on weather elements
+// class's used on weather elements in html
   // weather-search : city search input area
   // weather: container for  current weather
   // forecast: container for 5 day weather cards
@@ -16,16 +16,47 @@
   // humidity
   // rain
 
-var APIKEY = "4c74f6b3863580eb98284d7f219339f3";
-var queryURL = "http://api.openweathermap.org/geo/1.0/direct?q={city}&units={imperial}&appid={API key}"
-var city;
+// API key and base URL for OpenWeatherMap API
+const apiKey = "4c74f6b3863580eb98284d7f219339f3";
+const recentSearch = [];
+var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+var currentDayTime = $("#time-location");
+var searchListElement = document.getElementByID("search-list");
 
-// TODO write fetch
 
-// form submit handler
 
-// search button click event handler
 
-// store searched city in local storage
+function getCurrentWeather() {
+  currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
+  fetch(currentUrl)
+  .then((response)=> response.json())
+  .then((data) => {
+    localStorage.setItem("weather data", JSON.stringify(data))
+    displayWeather()
+  })
+}
 
-// append weather data to html elements
+function get5DayForecast() {
+  fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
+  fetch(fiveDayUrl)
+  .then((response)=> response.json())
+  .then((data) => {
+    localStorage.setItem("five day data", JSON.stringify(data))
+    displayFiveDay()
+  })
+}
+
+function getWithCiity () {
+  fetch(geoAPIURL)
+  .then((response)=> response.json())
+  .then((data) => {
+    localStorage.setItem("geo data", JSON.stringify(data))
+      lat = data.coord.lat
+      lon = data.coord.lon
+      console.log(geoData)
+      console.log(lat, lon)
+      getCurrentWeather();
+      get5DayForecast();
+  })
+}
+
