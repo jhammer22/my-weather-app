@@ -1,62 +1,76 @@
-// id's used
-  // submitbtn: submit button for city search
+var apiKey = "4c74f6b3863580eb98284d7f219339f3";
 
 
-// class's used on weather elements in html
-  // weather-search : city search input area
-  // weather: container for  current weather
-  // forecast: container for 5 day weather cards
-  // card: forecast card
-  // city
-  // date
-  // temp
-  // min-temp
-  // max-temp
-  // feels-like
-  // humidity
-  // rain
+const searchForm = document.querySelector('.search-bar');
+const searchInput = document.querySelector('.weather-search');
+const city = document.querySelector('.city');
+const date = document.querySelector('.date');
+const temp = document.querySelector('.temp');
+const minTemp = document.querySelector('.min-temp');
+const maxTemp = document.querySelector('.max-temp');
+const feelsLike = document.querySelector('.feels-like');
+const humidity = document.querySelector('.humidity');
+const rain = document.querySelector('.rain');
+const forecast = document.querySelector('.forecast');
 
-// API key and base URL for OpenWeatherMap API
-const apiKey = "4c74f6b3863580eb98284d7f219339f3";
-const recentSearch = [];
-var searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
-var currentDayTime = $("#time-location");
-var searchListElement = document.getElementByID("search-list");
+const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
+searchForm.addEventListener('submit', getWeatherData);
 
-
-
-function getCurrentWeather() {
-  currentUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
-  fetch(currentUrl)
-  .then((response)=> response.json())
-  .then((data) => {
-    localStorage.setItem("weather data", JSON.stringify(data))
-    displayWeather()
-  })
+function getWeatherData(event) {
+  event.preventDefault();
+  const cityName = searchInput.value;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&limit{5}&units=imperial&appid=${apiKey}`;
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&limit{5}&units=imperial&appid=${apiKey}`;
+  
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      city.innerHTML = data.name;
+      date.innerHTML = formatDate(new Date());
+      temp.innerHTML = `Temperature: ${Math.round(data.main.temp)}°F`;
+      minTemp.innerHTML = `Min temperature: ${Math.round(data.main.temp_min)}°F`;
+      maxTemp.innerHTML = `Max temperature: ${Math.round(data.main.temp_max)}°F`;
+      feelsLike.innerHTML = `Feels like: ${Math.round(data.main.feels_like)}°F`;
+      humidity.innerHTML = `Humidity: ${data.main.humidity}%`;
+      rain.innerHTML = `Description: ${data.weather[0].description}`;
+    })
+    .catch(error => console.log('Error:', error));
+  
+  fetch(forecastUrl)
+    .then(response => response.json())
+    .then(data => {
+      const dailyForecasts = data.list.filter(forecast => forecast.dt_txt.includes('12:00:00'));
+      dailyForecasts.forEach((forecast, index) => {
+        const card = forecast.parentElement;
+        const dayName = days[new Date(forecast.dt_txt).getDay()];
+        const tempEl = card.querySelector('.temp');
+        const minTempEl = card.querySelector('.min-temp');
+        const maxTempEl = card.querySelector('.max-temp');
+        const feelsLikeEl = card.querySelector('.feels-like');
+        const humidityEl = card.querySelector('.humidity');
+        const rainEl = card.querySelector('.rain');
+        tempEl.innerHTML = `Temperature: ${Math.round(forecast.main.temp)}°F`;
+        minTempEl.innerHTML = `Min temperature: ${Math.round(forecast.main.temp_min)}°F`;
+        maxTempEl.innerHTML = `Max temperature: ${Math.round(forecast.main.temp_max)}°F`;
+        feelsLikeEl.innerHTML = `Feels like: ${Math.round(forecast.main.feels_like)}°F`;
+        humidityEl.innerHTML = `Humidity: ${forecast.main.humidity}%`;
+        rainEl.innerHTML = `Description: ${forecast.weather[0].description}`;
+        card.querySelector('h4').innerHTML = dayName;
+      });
+    })
+    .catch(error => console.log('Error:', error));
 }
 
-function get5DayForecast() {
-  fiveDayUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=imperial`
-  fetch(fiveDayUrl)
-  .then((response)=> response.json())
-  .then((data) => {
-    localStorage.setItem("five day data", JSON.stringify(data))
-    displayFiveDay()
-  })
-}
+function formatDate(date) {
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
 
-function getWithCiity () {
-  fetch(geoAPIURL)
-  .then((response)=> response.json())
-  .then((data) => {
-    localStorage.setItem("geo data", JSON.stringify(data))
-      lat = data.coord.lat
-      lon = data.coord.lon
-      console.log(geoData)
-      console.log(lat, lon)
-      getCurrentWeather();
-      get5DayForecast();
-  })
-}
+  // Pad day and month with leading zeroes if necessary
+  const paddedDay = String(day).padStart(2, '0');
+  const paddedMonth = String(month).padStart(2, '0');
 
+  // Format the date as YYYY-MM-DD
+  return `${year}-${paddedMonth}-${paddedDay}`;
+}
