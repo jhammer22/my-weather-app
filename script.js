@@ -13,15 +13,15 @@ const humidity = document.querySelector('.humidity');
 const rain = document.querySelector('.rain');
 const forecast = document.querySelector('.forecast');
 
-const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 searchForm.addEventListener('submit', getWeatherData);
 
 function getWeatherData(event) {
   event.preventDefault();
   const cityName = searchInput.value;
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&limit{5}&units=imperial&appid=${apiKey}`;
-  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&limit{5}&units=imperial&appid=${apiKey}`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${apiKey}`;
+  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=imperial&appid=${apiKey}`;
   
   fetch(url)
     .then(response => response.json())
@@ -41,21 +41,24 @@ function getWeatherData(event) {
     .then(response => response.json())
     .then(data => {
       const dailyForecasts = data.list.filter(forecast => forecast.dt_txt.includes('12:00:00'));
-      dailyForecasts.forEach((forecast, index) => {
-        const card = forecast.parentElement;
-        const dayName = days[new Date(forecast.dt_txt).getDay()];
+      console.log(dailyForecasts)
+      dailyForecasts.forEach((dailyForecast, index) => {
+        const card = forecast.children[index];
+        console.log(forecast)
+        console.log(card)
+        const dayName = days[new Date(dailyForecast.dt_txt).getDay()];
         const tempEl = card.querySelector('.temp');
         const minTempEl = card.querySelector('.min-temp');
         const maxTempEl = card.querySelector('.max-temp');
         const feelsLikeEl = card.querySelector('.feels-like');
         const humidityEl = card.querySelector('.humidity');
         const rainEl = card.querySelector('.rain');
-        tempEl.innerHTML = `Temperature: ${Math.round(forecast.main.temp)}°F`;
-        minTempEl.innerHTML = `Min temperature: ${Math.round(forecast.main.temp_min)}°F`;
-        maxTempEl.innerHTML = `Max temperature: ${Math.round(forecast.main.temp_max)}°F`;
-        feelsLikeEl.innerHTML = `Feels like: ${Math.round(forecast.main.feels_like)}°F`;
-        humidityEl.innerHTML = `Humidity: ${forecast.main.humidity}%`;
-        rainEl.innerHTML = `Description: ${forecast.weather[0].description}`;
+        tempEl.innerHTML = `Temperature: ${Math.round(dailyForecast.main.temp)}°F`;
+        minTempEl.innerHTML = `Min temperature: ${Math.round(dailyForecast.main.temp_min)}°F`;
+        maxTempEl.innerHTML = `Max temperature: ${Math.round(dailyForecast.main.temp_max)}°F`;
+        feelsLikeEl.innerHTML = `Feels like: ${Math.round(dailyForecast.main.feels_like)}°F`;
+        humidityEl.innerHTML = `Humidity: ${dailyForecast.main.humidity}%`;
+        rainEl.innerHTML = `Description: ${dailyForecast.weather[0].description}`;
         card.querySelector('h4').innerHTML = dayName;
       });
     })
